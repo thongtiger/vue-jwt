@@ -1,8 +1,10 @@
 <template>
   <div id="app">
+    <p>isLoggedIn = {{isLoggedIn}}</p>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <router-link to="/login" v-if="isLoggedIn" @click="logout">Logout</router-link>
     </div>
     <router-view/>
   </div>
@@ -27,11 +29,11 @@ import axios from 'axios'
           console.error(error);
       });
    
-   
-      axios({ method: "GET", "url": "http://localhost:1323" }).then(result => {
+
+      axios({ method: "GET", "url": "http://127.0.0.1:1323" }).then(result => {
           console.log(result)
       }, error => {
-          console.error(error);
+          console.log(error);
       });
 
        axios.post( "http://localhost:1323/login", { username: "admin", password: "1234" })
@@ -42,11 +44,9 @@ import axios from 'axios'
           localStorage.setItem('access_token', token)
           // Add the following line:
           axios.defaults.headers.common['Authorization'] = token
-        })
-        .catch(function (error) {
-          console.log(error)
-        });
-
+        }).catch( error => {
+          console.log(error);
+      });
 }
   }
 </script>

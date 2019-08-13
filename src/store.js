@@ -1,51 +1,36 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from "./router"
 
 Vue.use(Vuex)
-
 export default new Vuex.Store({
   state: {
+    subject: "subject from vuex state",
     accessToken: localStorage.getItem('access_token') || '',
     currentUser: {},
-    isLoggedIn: false,
+    is_login: localStorage.getItem('access_token') ?true:false,
   },
   mutations: {
-    set_token(state, newtoken) {
-      state.accessToken = newtoken
-      state.isLoggedIn = true
+    set_token(state, token) {
+      state.accessToken = token
+      state.is_login = true
     },
-    logout(state) {
-      state.accessToken = ''
-      state.isLoggedIn = false
-    }
+    del_token(state) {
+      state.is_login = false
+      state.accessToken = null
+    },
   },
   actions: {
-    login({ commit }, auth) {
-      axios({ method: "GET", url: "http://localhost:1323" }).then(result => {
-        console.log(result)
-      }, error => {
-        console.error(error);
-      });
-
-      axios.post("http://localhost:1323/login", { username: auth.username, password: auth.password })
-        .then(function (response) {
-          console.log(response.data)
-          const token = response.data.token
-          commit("set_token", token)
-          localStorage.setItem('access_token', token)
-          // Add the following line:
-          axios.defaults.headers.common['Authorization'] = token
-        })
-        .catch(function (error) {
-          console.log(error)
-        });
+    login_success(state, token) {
+      localStorage.setItem("access_token", token);
+      axios.defaults.headers.common["Authorization"] = token;
+      state.commit('set_token', token)
+      router.push('/')
     },
-    logout({ commit }) {
-      commit('logout')
-      localStorage.removeItem('access_token')
-      delete this.axios.defaults.headers.common['Authorization']
+    logout(state){
+      localStorage.removeItem("access_token")
+      state.commit('del_token')
     }
-
   }
 })

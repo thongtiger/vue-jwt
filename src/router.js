@@ -5,7 +5,7 @@ import store from './store.js'
 
 Vue.use(Router)
 
-let router = new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -18,12 +18,17 @@ let router = new Router({
       }
     },
     {
-      path: '/about',
+      path: '/agent',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+      component: () => import('./views/About.vue'),
+      meta: { 
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import('./views/User.vue'),
       meta: { 
         requiresAuth: true
       }
@@ -36,12 +41,9 @@ let router = new Router({
     },
   ]
 })
-
-export default  router;
-
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.state.isLoggedIn) {
+    if (store.state.is_login) {
       next()
       return
     }
@@ -50,3 +52,4 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+export default  router;

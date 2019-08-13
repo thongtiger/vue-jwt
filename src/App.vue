@@ -6,6 +6,7 @@
       <router-link to="/user">User</router-link>|
       <router-link to="/agent">Agent</router-link>
       <a href="#" v-if="is_login" @click="logout" class="router-link-exact-active router-link-active">Logout</a>
+          
     </div>
     <router-view />
   </div>
@@ -14,6 +15,7 @@
 <script>
 import store from "./store.js";
 import router from "./router";
+// import axios from "axios";
 
 export default {
   computed: {
@@ -29,7 +31,7 @@ export default {
     }
   },
   mounted() {
-  
+       
   }
 };
 </script>

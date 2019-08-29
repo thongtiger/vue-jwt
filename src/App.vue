@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <p>isLoggedIn = {{is_login}}</p>
-    <p>role = {{$store.state.currentUser}}</p>
+    <!-- <p>isLoggedIn = {{is_login}}</p> -->
+    <!-- <p>user = {{currentUser}}</p> -->
     <div id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/order">Order</router-link>|
@@ -24,6 +24,9 @@ export default {
      is_login () {
       return this.$store.state.is_login;
     },
+     currentUser () {
+      return this.$store.state.currentUser;
+    },
   
 
   },
@@ -35,7 +38,7 @@ export default {
     }
   },
   mounted() {
-       
+      
   }
 };
 </script>

@@ -6,9 +6,13 @@ import router from "./router"
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
+    api_url: "http://localhost:3000",
     subject: "subject from vuex state",
     accessToken: localStorage.getItem('access_token') || '',
-    currentUser: {},
+    currentUser: {
+      role:"",
+      name:"",
+    },
     is_login: localStorage.getItem('access_token') ?true:false,
   },
   mutations: {
@@ -20,12 +24,16 @@ export default new Vuex.Store({
       state.is_login = false
       state.accessToken = null
     },
+    set_currentUser(state, user){
+      state.currentUser = user
+    }
   },
   actions: {
-    login_success(state, token) {
-      localStorage.setItem("access_token", token);
-      axios.defaults.headers.common["Authorization"] = token;
-      state.commit('set_token', token)
+    login_success( {commit }, data) {
+      localStorage.setItem("access_token", data.token);
+      axios.defaults.headers.common["Authorization"] = data.token;
+      commit('set_token',  data.token)
+      commit('set_currentUser', {role: data.role, name:data.name})
       router.push('/')
     },
     logout(state){

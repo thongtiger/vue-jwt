@@ -20,7 +20,7 @@
 <script>
 import axios from "axios";
 import store from "../store";
-import router from "../router"
+import router from "../router";
 export default {
   data() {
     return {
@@ -32,14 +32,17 @@ export default {
     login: function(e) {
       e.preventDefault();
       axios
-        .post("http://localhost:1323/login", {
+        .post(store.state.api_url + "/login", {
           username: this.username,
           password: this.password
         })
         .then(function(response) {
-          let token = response.data.token;
-          router.push('/home')
-          store.dispatch('login_success', token)
+          router.push("/home");
+          store.dispatch("login_success",  {
+            token: response.data.token,
+            name: response.data.name,
+            role: response.data.role
+          });
         })
         .catch(err => console.log(err));
     }

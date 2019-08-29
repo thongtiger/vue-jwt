@@ -5,7 +5,7 @@
     <table>
       <thead>
         <tr>
-          <th>agent_id</th>
+          <th>id</th>
           <th>username</th>
           <th>nick_name</th>
           <th>first_name</th>
@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <tr v-for="(item,k) in items" :key="k">
-          <td>{{ item.agent_id  }}</td>
+          <td>{{ item.id  }}</td>
           <td>{{ item.username  }}</td>
           <td>{{ item.nick_name  }}</td>
           <td>{{ item.first_name  }}</td>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import store from "../store";
 // @ is an alias to /src
 import axios from 'axios'
 export default {
@@ -45,20 +46,21 @@ export default {
     }
   },
   components: {
+
   },
   methods: {
     findAll(){
-       axios.get("http://localhost:1323/user", { headers: { 'Authorization': `Bearer ${localStorage.getItem("access_token")}`,'Accept':`application/json`
+       axios.get(store.state.api_url + "/user", { headers: { 'Authorization': `Bearer ${localStorage.getItem("access_token")}`,'Accept':`application/json`
        }})
         .then(response =>{
+          this.items = response.data
           // console.log(response.data)
-          if(response.data.success){
-            this.items = response.data["data"]
-          }
+          // if(response.data.success){
+            
+          // }
         })
         .catch(err => console.log(err));
     }
-
   },
   mounted(){
     this.findAll()

@@ -18,9 +18,17 @@ const router = new Router({
       }
     },
     {
-      path: '/agent',
-      name: 'about',
-      component: () => import('./views/About.vue'),
+      path: '/order',
+      name: 'order',
+      component: () => import('./views/Order.vue'),
+      meta: { 
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/transaction',
+      name: 'transaction',
+      component: () => import('./views/Transaction.vue'),
       meta: { 
         requiresAuth: true
       }

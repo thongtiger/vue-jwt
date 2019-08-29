@@ -1,10 +1,12 @@
 <template>
   <div id="app">
     <p>isLoggedIn = {{is_login}}</p>
+    <p>role = {{$store.state.currentUser}}</p>
     <div id="nav">
       <router-link to="/">Home</router-link>|
-      <router-link to="/user">User</router-link>|
-      <router-link to="/agent">Agent</router-link>
+      <router-link to="/order">Order</router-link>|
+      <router-link to="/transaction">Transaction</router-link>
+      <router-link to="/user">User</router-link>
       <a href="#" v-if="is_login" @click="logout" class="router-link-exact-active router-link-active">Logout</a>
           
     </div>
@@ -13,20 +15,22 @@
 </template>
 
 <script>
-import store from "./store.js";
+// import store from "./store.js";
 import router from "./router";
 // import axios from "axios";
 
 export default {
   computed: {
      is_login () {
-      return store.state.is_login;
-    }
+      return this.$store.state.is_login;
+    },
+  
+
   },
   methods: {
     logout(e){
       e.preventDefault();
-      store.dispatch('logout')
+      this.$store.dispatch('logout')
       router.push("/login")
     }
   },

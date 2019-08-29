@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Store from './store'
 import Home from './views/Home.vue'
-import store from './store.js'
 
 Vue.use(Router)
 
@@ -30,7 +30,7 @@ const router = new Router({
       name: 'transaction',
       component: () => import('./views/Transaction.vue'),
       meta: { 
-        requiresAuth: true
+        requiresAuth: true,
       }
     },
     {
@@ -38,7 +38,8 @@ const router = new Router({
       name: 'user',
       component: () => import('./views/User.vue'),
       meta: { 
-        requiresAuth: true
+        requiresAuth: true,
+        adminRole:true
       }
     },
     { 
@@ -47,11 +48,17 @@ const router = new Router({
       component: () => import('./views/Login.vue')
 
     },
+    {
+      path:'/forbidden',
+      name:  'forbidden',
+      component: () => import('./views/Forbidden.vue')
+
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.state.is_login) {
+    if (Store.state.is_login) {
       next()
       return
     }

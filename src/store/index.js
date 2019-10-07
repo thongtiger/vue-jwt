@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import router from "./router"
+import router from "../router"
+import { get } from 'http';
 
 Vue.prototype.$http  =  axios;
 
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
-    api_url: "http://localhost:3000",
+    api_url: "http://localhost:1323",
     subject: "subject from vuex state",
     accessToken: localStorage.getItem('access_token') || '',
     currentUser: {
@@ -18,16 +19,18 @@ export default new Vuex.Store({
     is_login: localStorage.getItem('access_token') ?true:false,
   },
   mutations: {
-    set_token(state, token) {
-      state.accessToken = token
+    set_token(state, data) {
+      state.accessToken = data.access_token
       state.is_login = true
-      localStorage.setItem("access_token",token);
-      axios.defaults.headers.common["Authorization"] = "Bearer "+token;
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("refresh_token", data.refresh_token);
+      axios.defaults.headers.common["Authorization"] = "Bearer "+ data.access_token;
     },
     del_token(state) {
       state.accessToken = null
       state.is_login = false
       localStorage.removeItem("access_token")
+      localStorage.removeItem("refresh_token")
       axios.defaults.headers.common['Authorization'] = null
     },
     set_currentUser(state, user){
@@ -44,20 +47,22 @@ export default new Vuex.Store({
     },
     login({state,commit},payload){
       axios
-        .post(state.api_url + "/login",  {
+        .post(state.api_url + "/oauth2/token",  {
+          grant_type:'password',
           username: payload.username,
           password: payload.password
         })
         .then(function(response) {
           let result = response.data
 
-          commit('set_token',  result.token)
+          commit('set_token',  { access_token : result.access_token, refresh_token: result.refresh_token})
           commit('set_currentUser', {role: result.role, name:result.name})
-          router.push('/home')
+          router.push('/')
         })
         .catch(err =>{ 
            console.log(err)
         }
         );
-  }
+  },
+ 
 }})

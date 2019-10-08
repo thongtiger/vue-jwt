@@ -21,7 +21,6 @@ export default {
     findAll(){
        this.$http.get("/protected")
         .then(response =>{
-          // console.log(response.data)
           if(response.data.success){
             this.items = response.data["data"]
           }
@@ -31,10 +30,8 @@ export default {
     showFormNewOrder(){
       this.form_neworder = true;
     }
-
   },
   mounted(){
-    this.findAll()
   }
 }
 </script>

@@ -47,7 +47,7 @@ export default new Vuex.Store({
     logout(state) {
       state.commit('logout')
     },
-    login_password({ state, commit, dispatch }, payload) {
+    login_password({ commit, dispatch }, payload) {
      axios
       .post( "/oauth2/token", {
           grant_type: 'password',

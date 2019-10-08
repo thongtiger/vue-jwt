@@ -10,7 +10,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: "home",
@@ -27,7 +27,7 @@ export default {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     },
     getProtected(){
-       axios.get("http://localhost:1323/protected")
+       this.$http.get("/protected")
         .then(response =>{
           if(response.data){
             console.log(response.data)

@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
  data(){
     return{
@@ -21,7 +19,7 @@ export default {
   },
   methods: {
     findAll(){
-       axios.get("http://localhost:1323/protected")
+       this.$http.get("/protected")
         .then(response =>{
           // console.log(response.data)
           if(response.data.success){

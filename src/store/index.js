@@ -39,8 +39,8 @@ export default new Vuex.Store({
       localStorage.removeItem("access_token")
       localStorage.removeItem("refresh_token")
       // remove the axios default header
-      // axios.defaults.headers.common['Authorization'] = null
-      delete axios.defaults.headers.common['Authorization']
+      axios.defaults.headers.common['Authorization'] = null
+      // delete axios.defaults.headers.common['Authorization']
     }
   },
   actions: {
@@ -48,8 +48,8 @@ export default new Vuex.Store({
       state.commit('logout')
     },
     login_password({ state, commit, dispatch }, payload) {
-      axios
-        .post(state.api_url + "/oauth2/token", {
+     axios
+      .post( "/oauth2/token", {
           grant_type: 'password',
           username: payload.username,
           password: payload.password
@@ -65,12 +65,12 @@ export default new Vuex.Store({
           router.push('/')
         })
         .catch(err => {
-            console.warn(err)
+            console.log(err)
         });
     },
     login_token({ state, commit, dispatch }) {
       axios
-        .post(state.api_url + "/oauth2/token", {
+        .post( "/oauth2/token", {
           grant_type: 'refresh_token',
           refresh_token: state.refreshToken
         })
@@ -84,7 +84,7 @@ export default new Vuex.Store({
           }, parseInt(response.data.expires_in) *1000);
         })
         .catch(err => {
-          console.warn(err)
+          console.log(err)
             router.push('/login')
         });
     }

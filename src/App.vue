@@ -27,8 +27,6 @@ export default {
      currentUser () {
       return this.$store.state.currentUser;
     },
-  
-
   },
   methods: {
     logout(e){

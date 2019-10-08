@@ -26,7 +26,7 @@ export default {
   methods: {
     login: function(e) {
       e.preventDefault();
-      this.$store.dispatch("login",  {
+      this.$store.dispatch("login_password",  {
           username: this.username,
           password: this.password
         })

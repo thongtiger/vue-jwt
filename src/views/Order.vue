@@ -21,8 +21,7 @@ export default {
   },
   methods: {
     findAll(){
-       axios.get("http://payment.beme.mobi/api/user", { headers: { 'Authorization': `Bearer ${localStorage.getItem("access_token")}`,'Accept':`application/json`
-       }})
+       axios.get("http://localhost:1323/protected")
         .then(response =>{
           // console.log(response.data)
           if(response.data.success){
@@ -32,7 +31,7 @@ export default {
         .catch(err => console.log(err));
     },
     showFormNewOrder(){
-this.form_neworder = true;
+      this.form_neworder = true;
     }
 
   },

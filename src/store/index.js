@@ -51,8 +51,9 @@ export default new Vuex.Store({
      axios
       .post( "/oauth2/token", {
           grant_type: 'password',
-          username: payload.username,
-          password: payload.password
+          ...payload
+          // username: payload.username,
+          // password: payload.password
         })
         .then(function (response) {
           commit('login_success', response.data)
